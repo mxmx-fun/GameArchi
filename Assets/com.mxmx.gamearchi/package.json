@@ -1,0 +1,20 @@
+{
+    "name": "com.mxmx.gamearchi",
+    "version": "0.0.1",
+    "description": "基于C#,Unity,Addressable的游戏框架",
+    "displayName": "GameArki",
+    "unity": "2021.3.21",
+    "author": {
+      "name": "GameArki"
+    },
+    "changelogUrl": "",
+    "dependencies": {},
+    "documentationUrl": "",
+    "hideInEditor": false,
+    "keywords": [
+    ],
+    "license": "",
+    "licensesUrl": "",
+    "samples": [],
+    "unityRelease": "f1c1"
+  }
