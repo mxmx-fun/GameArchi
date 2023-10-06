@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GameArchi.InputModule;
+using GameArchi.InputSystem;
 
 public class Test : MonoBehaviour
 {
@@ -11,7 +11,7 @@ public class Test : MonoBehaviour
     {
         //Init
         inputSystem = new InputSystem();
-        inputSystem.Ctor();
+        inputSystem.Inject();
         
         //Bind Input
         inputSystem.Setter.Bind(InputButton.Jump, KeyCode.Space);
