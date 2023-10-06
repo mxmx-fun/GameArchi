@@ -3,9 +3,11 @@
     "version": "0.0.1",
     "description": "基于C#,Unity,Addressable的游戏框架",
     "displayName": "GameArki",
-    "unity": "2021.3",
+    "unity": "2019.4",
     "author": {
-      "name": "GameArki"
+      "name": "莫夕莫夕",
+      "email": "mxmxfun@sina.com",
+      "url": "https://github.com/mxmx-fun"
     },
     "changelogUrl": "",
     "dependencies": {},
@@ -16,5 +18,5 @@
     "license": "",
     "licensesUrl": "",
     "samples": [],
-    "unityRelease": "f1c1"
+    "unityRelease": "16f1"
   }
