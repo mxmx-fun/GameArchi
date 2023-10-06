@@ -20,3 +20,8 @@ Domain：模块的核心业务
 Context：模块的上下文  
 Getter/Setter：模块给外部调用的接口  
 EventCenter：模块给外部注册的事件中心  
+
+## 如何使用：  
+1.Unity打开Package Manger窗口  
+2.左上角选择add package from git url  
+3.输入ssh://git@github.com/linmaoxu/GameArchi.git?path=/Assets/com.moxi.gamearchi#main
