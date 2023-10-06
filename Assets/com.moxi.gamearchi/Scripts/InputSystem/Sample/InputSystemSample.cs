@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameArchi.InputSystem;
 
-public class Test : MonoBehaviour
+public class InputSystemSample : MonoBehaviour
 {
     InputSystem inputSystem;
 
