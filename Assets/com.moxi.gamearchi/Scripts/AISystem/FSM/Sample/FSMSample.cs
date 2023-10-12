@@ -4,12 +4,11 @@ namespace GameArchi.AISystem.FSM.Sample
 {
     public class FSMSample : MonoBehaviour
     {
-        IFSM rgyFSM;
+        RGYFSM rgyFSM;
 
         public void Awake()
         {
             rgyFSM = new RGYFSM();
-            rgyFSM.ChangeState((int)RGYLightType.Red);
         }
 
         public void Update()

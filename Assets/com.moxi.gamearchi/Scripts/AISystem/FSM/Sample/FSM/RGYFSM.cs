@@ -2,55 +2,24 @@ using System.Collections.Generic;
 
 namespace GameArchi.AISystem.FSM.Sample
 {
-    public class RGYFSM : IFSM
+    public class RGYFSM : FSM
     {
-        IFSMState curState;
-        IFSMState IFSM.CurrentState => curState;
+        FSMState redLightState;
+        FSMState greenLightState;
+        FSMState yellowLightState;
 
-        Dictionary<int, IFSMState> states;
-
-        IFSMState redLightState;
-        IFSMState greenLightState;
-        IFSMState yellowLightState;
-
-        public RGYFSM()
+        public RGYFSM():base()
         {
             redLightState = new RGYRedLightState(this);
             greenLightState = new RGYGreenLightState(this);
             yellowLightState = new RGYYellowLightState(this);
 
-            states = new Dictionary<int, IFSMState>();
             states.Add(redLightState.StateID, redLightState);
             states.Add(greenLightState.StateID, greenLightState);
             states.Add(yellowLightState.StateID, yellowLightState);
-        }
 
-        void IFSM.ChangeState(int stateID)
-        {
-            if(curState != null) curState.OnExit();
-            
-            if(states.ContainsKey(stateID)) {
-                curState = states[stateID];
-                curState.OnEnter();
-            }
+            ChangeState((int)RGYLightType.Red);
         }
-
-        IFSMState IFSM.GetCurrentState()
-        {
-            return curState;
-        }
-
-        void IFSM.Reset()
-        {
-            curState = null;
-        }
-
-        void IFSM.Tick(float dt)
-        {
-            if(curState == null) return;
-            curState.OnTick(dt);
-        }
-
 
     }
 }

@@ -4,9 +4,7 @@ namespace GameArchi.AISystem.FSM
     public interface IFSM
     {
 
-        IFSMState CurrentState { get; }
-        
-        IFSMState GetCurrentState();
+        FSMState State { get; }        
 
         void ChangeState(int stateID);
 

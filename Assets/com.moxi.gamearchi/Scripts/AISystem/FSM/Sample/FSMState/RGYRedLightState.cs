@@ -1,45 +1,34 @@
 namespace GameArchi.AISystem.FSM.Sample
 {
-    public class RGYRedLightState : IFSMState
+    public class RGYRedLightState : FSMState
     {
-
-        IFSM owner;
-        IFSM IFSMState.Owner => owner;
-
-        int stateID;
-        int IFSMState.StateID => stateID;
-
-        LifeCycle state;
-        LifeCycle IFSMState.State => state;
-
 
         float duration = 0;
         float maxDuration = 4;
 
-        public RGYRedLightState(IFSM manager)
+        public RGYRedLightState(FSM ownner): base(ownner)
         {
-            this.owner = manager;
             stateID = (int)RGYLightType.Red;
         }
 
-        void IFSMState.OnEnter()
+        public override void OnEnter()
         {
-            state = LifeCycle.Enter;
+            base.OnEnter();
             duration = 0;
             UnityEngine.Debug.Log("Red Light OnEnter");
             state = LifeCycle.Tick;
         }
 
-        void IFSMState.OnExit()
+        public override void OnExit()
         {
-            state = LifeCycle.Exit;
+            base.OnExit();
             duration = 0;
             UnityEngine.Debug.Log("Red Light Exit");
         }
 
-        void IFSMState.OnTick(float dt)
+        public override void OnTick(float dt)
         {
-            if (state != LifeCycle.Tick) return;
+            base.OnTick(dt);
             
             if (duration < maxDuration)
             {

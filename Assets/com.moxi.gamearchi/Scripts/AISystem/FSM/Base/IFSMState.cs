@@ -1,14 +1,21 @@
 namespace GameArchi.AISystem.FSM
 {
+    public enum LifeCycle
+    {
+        Enter,
+        Tick,
+        Exit,
+    }
+
     public interface IFSMState
     {
-        IFSM Owner { get; }
+        FSM Owner { get; }
         LifeCycle State { get; }
 
-        public int StateID { get; }
+        int StateID { get; }
 
-        public void OnEnter();
-        public void OnTick(float dt);
-        public void OnExit();
+        void OnEnter();
+        void OnTick(float dt);
+        void OnExit();
     }
 }
