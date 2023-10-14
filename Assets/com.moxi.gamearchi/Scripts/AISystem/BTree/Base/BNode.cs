@@ -25,6 +25,30 @@ namespace GameArchi.AI.BehaviourTree
             nodeState = BNodeState.None;
         }
 
+        public void AddChild(BNode node)
+        {
+            children.Add(node);
+        }
+
+        public void RemoveChild(BNode node)
+        {
+            children.Remove(node);
+        }
+
+        public void ClearChildren()
+        {
+            children.Clear();
+        }
+
+        public void InsertChildren(BNode preNode, BNode insertNode)
+        {
+            int index = children.IndexOf(preNode);
+            if (index >= 0)
+            {
+                children.Insert(index, insertNode);
+            }
+        }
+
         public virtual void OnEnter()
         {
             nodeState = BNodeState.Running;
@@ -32,7 +56,7 @@ namespace GameArchi.AI.BehaviourTree
 
         public virtual BNodeState OnExit()
         {
-            return BNodeState.Success;
+            return BNodeState.None;
         }
 
         public virtual BNodeState OnExecute()
