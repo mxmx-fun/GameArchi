@@ -24,6 +24,7 @@ namespace GameArchi.AISystem.FSM
                 state = states[stateID];
                 state.OnEnter();
             }
+
         }
 
         public virtual void Reset()
