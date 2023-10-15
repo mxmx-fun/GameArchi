@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace GameArchi.AI.BehaviourTree
 {
     public class BTree
@@ -6,28 +8,21 @@ namespace GameArchi.AI.BehaviourTree
         public BNode Root => root;
         public void SetRoot(BNode value) => root = value;
 
+        BNode currentNode;
+        public BNode CurrentNode => currentNode;
+
         public BInput input;
 
         public BTree()
         {
             input = new BInput();
+            currentNode = root;
         }
 
-        public void OnEnter()
+        public void OnExecute()
         {
-            if (root != null)
-            {
-                root.OnEnter();
-            }
-        }
-
-        public BNodeState OnExecute()
-        {
-            if (root != null)
-            {
-                return root.OnExecute();
-            }
-            return BNodeState.None;
+            if (root == null) return;
+            currentNode.OnExecute();
         }
     }
 }

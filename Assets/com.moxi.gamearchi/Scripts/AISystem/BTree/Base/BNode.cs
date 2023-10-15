@@ -14,6 +14,8 @@ namespace GameArchi.AI.BehaviourTree
         protected List<BNode> children;
         public List<BNode> Children => children;
 
+        protected BNode preConditionNode;
+        public BNode PreConditionNode => preConditionNode;
 
         protected BNodeState nodeState;
         public BNodeState NodeState => nodeState;
@@ -51,6 +53,15 @@ namespace GameArchi.AI.BehaviourTree
 
         public virtual void OnEnter()
         {
+            if (PreConditionNode != null)
+            {
+                var conditionNode = preConditionNode as BNodeCondition;
+                if (!conditionNode.Evaluate())
+                {
+                    nodeState = BNodeState.Failure;
+                    return;
+                }
+            }
             nodeState = BNodeState.Running;
         }
 
@@ -64,9 +75,9 @@ namespace GameArchi.AI.BehaviourTree
             return BNodeState.Success;
         }
 
-        public BNodeState GetNodeState()
+        public void SetPreConditionNode(BNode node)
         {
-            return nodeState;
+            preConditionNode = node;
         }
 
     }

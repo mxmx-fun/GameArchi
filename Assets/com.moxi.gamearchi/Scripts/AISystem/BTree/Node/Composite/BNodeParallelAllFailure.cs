@@ -26,6 +26,12 @@ namespace GameArchi.AI.BehaviourTree
 
         public override BNodeState OnExecute()
         {
+            if (nodeState == BNodeState.None)
+            {
+                OnEnter();
+                return nodeState;
+            }
+
             _AsyncExecute();
             if (nodeState == BNodeState.Success)
             {
@@ -59,7 +65,8 @@ namespace GameArchi.AI.BehaviourTree
                 {
                     IsCompleted = true;
                     nodeState = BNodeState.Failure;
-                    if (tasks.Count > 0) {
+                    if (tasks.Count > 0)
+                    {
                         foreach (var t in tasks)
                         {
                             t.Dispose();

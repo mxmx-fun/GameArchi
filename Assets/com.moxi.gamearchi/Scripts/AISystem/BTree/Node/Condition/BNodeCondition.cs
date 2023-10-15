@@ -7,9 +7,10 @@ namespace GameArchi.AI.BehaviourTree
             nodeType = BNodeType.Condition;
         }
 
-        public BNodeState Evaluate(BInput input)
+        public bool Evaluate()
         {
-            return BNodeState.Success;
+            return true;
         }
+
     }
 }
