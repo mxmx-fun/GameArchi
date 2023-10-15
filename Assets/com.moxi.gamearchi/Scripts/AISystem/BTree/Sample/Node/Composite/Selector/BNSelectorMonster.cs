@@ -4,7 +4,7 @@ namespace GameArchi.AI.BehaviourTree.Sample
     {
         public BNSelectorMonster() : base()
         {
-            nodeName = "怪物AI";
+            nodeName = "怪物行为选择节点";
         }
 
     }

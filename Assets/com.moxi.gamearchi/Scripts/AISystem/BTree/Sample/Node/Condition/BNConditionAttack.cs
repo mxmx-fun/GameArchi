@@ -1,12 +1,12 @@
 namespace GameArchi.AI.BehaviourTree.Sample
 {
-    public class BNConditionDistance : BNodeCondition
+    public class BNConditionAttack : BNodeCondition
     {
         float triggerDistance;
 
-        public BNConditionDistance() : base()
+        public BNConditionAttack() : base()
         {
-            nodeName = "距离判断";
+            nodeName = "攻击判断";
         }
 
 
@@ -17,7 +17,6 @@ namespace GameArchi.AI.BehaviourTree.Sample
         public override bool Evaluate(BInput input)
         {
             var distance = (input as BInputDistance).Distance;
-            UnityEngine.Debug.Log($"距离判断:{distance}");
             return distance <= triggerDistance;
         }
 
