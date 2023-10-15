@@ -7,7 +7,7 @@ namespace GameArchi.AI.BehaviourTree
             nodeType = BNodeType.Condition;
         }
 
-        public bool Evaluate()
+        public virtual bool Evaluate(BInput input)
         {
             return true;
         }

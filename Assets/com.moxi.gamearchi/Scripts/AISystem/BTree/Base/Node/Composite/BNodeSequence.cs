@@ -9,17 +9,22 @@ namespace GameArchi.AI.BehaviourTree
             nodeType = BNodeType.Decorator;
         }
 
-        public override void OnEnter()
+        public override void OnEnter(BInput input)
         {
             index = 0;
-            base.OnEnter();
+            base.OnEnter(input);
         }
 
-        public override BNodeState OnExecute()
+        public override BNodeState OnExecute(BInput input)
         {
             if (nodeState == BNodeState.None)
             {
-                OnEnter();
+                OnEnter(input);
+                if (nodeState == BNodeState.Failure)
+                {
+                    OnExit();
+                    return BNodeState.Failure;
+                }
                 return nodeState;
             }
 
@@ -30,7 +35,7 @@ namespace GameArchi.AI.BehaviourTree
             }
 
             var node = Children[index];
-            var state = node.OnExecute();
+            var state = node.OnExecute(input);
 
             if (state == BNodeState.Failure)
             {

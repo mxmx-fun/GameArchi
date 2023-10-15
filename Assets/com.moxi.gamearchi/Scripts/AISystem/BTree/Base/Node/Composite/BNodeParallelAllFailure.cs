@@ -4,35 +4,40 @@ using System.Threading.Tasks;
 
 namespace GameArchi.AI.BehaviourTree
 {
-    public class BNodeParallelAllSuccess : BNode
+    public class BNodeParallelAllFailure : BNode
     {
         int index;
         BNodeState[] states;
         List<Task<BNodeState>> tasks;
         bool IsCompleted;
 
-        public BNodeParallelAllSuccess()
+        public BNodeParallelAllFailure()
         {
             nodeType = BNodeType.Composite;
         }
 
-        public override void OnEnter()
+        public override void OnEnter(BInput input)
         {
             index = 0;
             tasks = new List<Task<BNodeState>>();
             IsCompleted = false;
-            base.OnEnter();
+            base.OnEnter(input);
         }
 
-        public override BNodeState OnExecute()
+        public override BNodeState OnExecute(BInput input)
         {
             if (nodeState == BNodeState.None)
             {
-                OnEnter();
+                OnEnter(input);
+                if (nodeState == BNodeState.Failure)
+                {
+                    OnExit();
+                    return BNodeState.Failure;
+                }
                 return nodeState;
             }
 
-            _AsyncExecute();
+            _AsyncExecute(input);
             if (nodeState == BNodeState.Success)
             {
                 nodeState = BNodeState.None;
@@ -43,14 +48,14 @@ namespace GameArchi.AI.BehaviourTree
             return BNodeState.Failure;
         }
 
-        async void _AsyncExecute()
+        async void _AsyncExecute(BInput input)
         {
 
             for (; index < children.Count; index++)
             {
                 Task<BNodeState> task = Task.Run(() =>
                 {
-                    return children[index].OnExecute();
+                    return children[index].OnExecute(input);
                 });
                 tasks.Add(task);
             }
@@ -61,7 +66,7 @@ namespace GameArchi.AI.BehaviourTree
                 var result = task.Result;
                 tasks.Remove(task);
 
-                if (result == BNodeState.Failure)
+                if (result == BNodeState.Success)
                 {
                     IsCompleted = true;
                     nodeState = BNodeState.Failure;

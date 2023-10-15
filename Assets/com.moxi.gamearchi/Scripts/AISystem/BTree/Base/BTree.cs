@@ -4,9 +4,10 @@ namespace GameArchi.AI.BehaviourTree
 {
     public class BTree
     {
+        protected string treeName;
+
         BNode root;
         public BNode Root => root;
-        public void SetRoot(BNode value) => root = value;
 
         BNode currentNode;
         public BNode CurrentNode => currentNode;
@@ -16,13 +17,20 @@ namespace GameArchi.AI.BehaviourTree
         public BTree()
         {
             input = new BInput();
+        }
+
+        public void SetRoot(BNode value)
+        {
+            root = value;
             currentNode = root;
         }
 
-        public void OnExecute()
+
+        public void OnExecute(BInput input)
         {
-            if (root == null) return;
-            currentNode.OnExecute();
+            currentNode?.OnExecute(input);
         }
+
+        public virtual void Init() { }
     }
 }
