@@ -5,7 +5,12 @@ namespace GameArchi.AssetSystem {
 
     public class AssetDomain {
 
-        public Dictionary<int,Sprite>iconAssets;
-        
+        public void LoadAllUI() {
+
+        }
+
+        public void LoadAllSprite() {
+            
+        }
     }
 }
