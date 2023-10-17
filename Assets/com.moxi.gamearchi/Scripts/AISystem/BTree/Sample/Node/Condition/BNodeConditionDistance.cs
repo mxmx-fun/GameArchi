@@ -1,23 +1,24 @@
 namespace GameArchi.AI.BehaviourTree.Sample
 {
-    public class BNConditionPatrol : BNodeCondition
+    public class BNConditionDistance : BNodeCondition
     {
+        BInput input;
+
         float triggerDistance;
 
-        public BNConditionPatrol() : base()
+        public BNConditionDistance() : base()
         {
-            nodeName = "巡逻判断";
+            nodeName = "距离判断";
         }
-
 
         public void SetCondition(float distance) {
             triggerDistance= distance;
         }
 
-        public override bool Evaluate(BInput input)
+        public override bool Evaluate()
         {
             var distance = (input as BInputDistance).Distance;
-            return distance > triggerDistance;
+            return distance <= triggerDistance;
         }
 
     }
