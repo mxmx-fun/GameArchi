@@ -1,5 +1,4 @@
 using System;
-using Telepathy;
 
 namespace GameArchi.NetWorkSystem
 {
@@ -8,16 +7,12 @@ namespace GameArchi.NetWorkSystem
         Telepathy.Client client;
         public Telepathy.Client Client => client;
 
-        public Action OnConnectedHandler;
-        public Action<ArraySegment<byte>> OnDateHandler;
-        public Action OnDisconnectedHandler;
+        NetState state;
 
-        public LowLevelClient(int maxMessageSize =  1024)
+        public LowLevelClient(int maxMessageSize = 1024)
         {
+            state = NetState.Disconnected;
             client = new Telepathy.Client(maxMessageSize);
-            client.OnConnected += OnConnectedHandler;
-            client.OnData += OnDateHandler;
-            client.OnDisconnected += OnDisconnectedHandler;
         }
 
         public void Connect(string ip, int port)
@@ -30,16 +25,37 @@ namespace GameArchi.NetWorkSystem
             client.Send(date);
         }
 
+        public NetState State()
+        {
+            if (client.Connected)
+            {
+                state = NetState.Connected;
+            }
+
+            if (client.Connecting)
+            {
+                state = NetState.Connecting;
+            }
+
+            if (!client.Connected && !client.Connecting)
+            {
+                state = NetState.Disconnected;
+            }
+
+            return state;
+        }
+
         public void Disconnect()
         {
             client.Disconnect();
         }
 
-        public void Tick(int processLimit = 1000) {
+        public void Tick(int processLimit = 1000)
+        {
             client.Tick(processLimit);
-            
+
         }
 
-    
+
     }
 }

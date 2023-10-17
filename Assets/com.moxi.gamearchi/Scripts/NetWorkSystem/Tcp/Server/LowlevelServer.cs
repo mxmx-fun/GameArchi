@@ -6,16 +6,27 @@ namespace GameArchi.NetWorkSystem
     public class LowLevelServer
     {
         Telepathy.Server server;
-        public Action<int> OnConnectedHandler;
-        public Action<int, ArraySegment<byte>> OnDateHandler;
-        public Action<int> OnDisconnectedHandler;
+        public Telepathy.Server Server => server;
+        NetState state;
 
         public LowLevelServer(int maxMessageSize = 1024)
         {
+            state = NetState.Disconnected;
             server = new Telepathy.Server(maxMessageSize);
-            server.OnConnected += OnConnectedHandler;
-            server.OnData += OnDateHandler;
-            server.OnDisconnected += OnDisconnectedHandler;
+        }
+
+        public NetState State()
+        {
+            if (server.Active)
+            {
+                state = NetState.Connected;
+            }
+            else
+            {
+                state = NetState.Disconnected;
+            }
+
+            return state;
         }
 
         public bool Start(int port)
@@ -30,17 +41,17 @@ namespace GameArchi.NetWorkSystem
 
         public bool Send(int connectionId, ArraySegment<byte> date)
         {
-           return server.Send(connectionId, date);
+            return server.Send(connectionId, date);
         }
 
         public bool Disconnect(int connectionId)
         {
-           return server.Disconnect(connectionId);
+            return server.Disconnect(connectionId);
         }
 
         public int Tick(int processLimit = 1000)
         {
-           return server.Tick(processLimit);
+            return server.Tick(processLimit);
         }
     }
 }

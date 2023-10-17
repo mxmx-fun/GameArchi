@@ -7,16 +7,18 @@ namespace GameArchi.NetWorkSystem
     {
 
         LowLevelClient client;
-        public Action OnConnectedHandler;
-        public Action<ArraySegment<byte>> OnDateHandler;
-        public Action OnDisconnectedHandler;
+
+        public NetState State => client.State();
+
 
         public Client(int maxMessageSize = 1024)
         {
             client = new LowLevelClient(maxMessageSize);
-            client.OnConnectedHandler += OnConnectedHandler;
-            client.OnDateHandler += OnDateHandler;
-            client.OnDisconnectedHandler += OnDisconnectedHandler;
+        }
+
+        public Telepathy.Client GetClient()
+        {
+            return client.Client;
         }
 
         public void Connect(string ip, int port)
