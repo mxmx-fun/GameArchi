@@ -9,11 +9,23 @@ namespace GameArchi.NetWorkSystem
 
         NetState state;
 
+        public event Action OnConnectedHandler;
+        public event Action OnDisconnectedHandler;
+        public event Action<ArraySegment<byte>> OnDataHandler;
+
+
         public LowLevelClient(int maxMessageSize = 1024)
         {
             state = NetState.Disconnected;
             client = new Telepathy.Client(maxMessageSize);
         }
+
+        public void Init() {
+            client.OnConnected += OnConnectedHandler;
+            client.OnDisconnected += OnDisconnectedHandler;
+            client.OnData += OnDataHandler;
+        }
+
 
         public void Connect(string ip, int port)
         {

@@ -16,39 +16,40 @@ namespace GameArchi.NetWorkSystem.Sample
             client = new Client();
             server = new Server();
 
-            var lowLevelClient = client.GetClient();
-            var lowLevelServer = server.GetServer();
-
-            lowLevelClient.OnConnected += () =>
+            //Bind Event
+            client.OnConnectedHandler += ()=>
             {
-                Debug.Log("lowLevelClient connected");
+                Debug.Log("Client Connected");
             };
 
-            lowLevelClient.OnData += (date) =>
+            client.OnDisconnectedHandler += ()=>
             {
-                Debug.Log("lowLevelClient received:" + System.Text.Encoding.UTF8.GetString(date.Array, date.Offset, date.Count));
+                Debug.Log("Client Disconnected");
             };
 
-            lowLevelClient.OnDisconnected += () =>
+            client.OnDataHandler += (data)=>
             {
-                Debug.Log("client disconnected");
+                Debug.Log("Client Receive Data:" + System.Text.Encoding.UTF8.GetString(data.Array));
             };
 
-            lowLevelServer.OnConnected += (connectionId) =>
+            server.OnConnectedHandler += (connectionId)=>
             {
-                Debug.Log("lowLevelServer connected:" + connectionId);
+                Debug.Log("Server Connected:" + connectionId);
             };
 
-            lowLevelServer.OnData += (connectionId, date) =>
+            server.OnDisconnectedHandler += (connectionId)=>
             {
-                Debug.Log("lowLevelServer received:" + System.Text.Encoding.UTF8.GetString(date.Array, date.Offset, date.Count));
-                lowLevelServer.Send(connectionId, date);
+                Debug.Log("Server Disconnected:" + connectionId);
             };
 
-            lowLevelServer.OnDisconnected += (connectionId) =>
+            server.OnDataHandler += (connectionId, data)=>
             {
-                Debug.Log("lowLevelServer disconnected:" + connectionId);
+                Debug.Log("Server Receive Data:" + System.Text.Encoding.UTF8.GetString(data.Array));
             };
+
+            //Init
+            client.Init();
+            server.Init();
         }
 
         public void Start()

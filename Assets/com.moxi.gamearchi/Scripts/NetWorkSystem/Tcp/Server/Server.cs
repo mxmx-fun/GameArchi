@@ -8,18 +8,26 @@ namespace GameArchi.NetWorkSystem
         LowLevelServer server;
         public NetState State => server.State();
 
-        public Telepathy.Server GetServer()
-        {
-            return server.Server;
-        }
+        public event Action<int> OnConnectedHandler;
+        public event Action<int> OnDisconnectedHandler;
+        public event Action<int, ArraySegment<byte>> OnDataHandler;
 
         public Server(int maxMessageSize = 1024)
         {
             server = new LowLevelServer(maxMessageSize);
         }
 
-        public void Test(int A, ArraySegment<byte> B) {
-            UnityEngine.Debug.Log("Server OnDateHandler2");
+        public void Init()
+        {
+            server.OnConnectedHandler += OnConnectedHandler;
+            server.OnDisconnectedHandler += OnDisconnectedHandler;
+            server.OnDataHandler += OnDataHandler;
+            server.Init();
+        }
+
+        public Telepathy.Server GetServer()
+        {
+            return server.Server;
         }
 
         public bool Start(int port)
