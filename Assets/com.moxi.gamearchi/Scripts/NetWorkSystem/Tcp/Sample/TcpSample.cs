@@ -1,3 +1,4 @@
+using GameArchi.Utils;
 using UnityEngine;
 
 namespace GameArchi.NetWorkSystem.Sample
