@@ -1,11 +1,26 @@
 using GameArchi.Utils;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GameArchi.NetWorkSystem.Sample
 {
 
     public class TcpSample : MonoBehaviour
     {
+        [Header("server")]
+        public Button openServerBtn;
+        public Button closeServerBtn; 
+        public Button sendServerBtn;
+        public InputField inputServerField;
+        public Text messageServerText;
+
+
+        [Header("client")]
+        public Button connectClientBtn;
+        public Button disconnectClientBtn;
+        public Button sendClientBtn;
+        public InputField inputClientField;
+        public Text messageClientText;
 
         Client client;
         Server server;
@@ -20,44 +35,61 @@ namespace GameArchi.NetWorkSystem.Sample
             //Bind Event
             client.OnConnectedHandler += ()=>
             {
-                Debug.Log("Client Connected");
+                messageClientText.text += "Client Connected\n";
             };
 
             client.OnDisconnectedHandler += ()=>
             {
-                Debug.Log("Client Disconnected");
+                messageClientText.text += "Client Disconnected\n";
             };
 
             client.OnDataHandler += (data)=>
             {
-                Debug.Log("Client Receive Data:" + System.Text.Encoding.UTF8.GetString(data.Array));
+                messageClientText.text += "Server:" + System.Text.Encoding.UTF8.GetString(data.Array).ToString();
             };
 
             server.OnConnectedHandler += (connectionId)=>
             {
-                Debug.Log("Server Connected:" + connectionId);
+                messageServerText.text += "Server Connected:" + connectionId + "\n";
             };
 
             server.OnDisconnectedHandler += (connectionId)=>
             {
-                Debug.Log("Server Disconnected:" + connectionId);
+                messageServerText.text += "Server Disconnected:" + connectionId + "\n";
             };
 
             server.OnDataHandler += (connectionId, data)=>
             {
-                Debug.Log("Server Receive Data:" + System.Text.Encoding.UTF8.GetString(data.Array));
+                messageServerText.text += "Client:" + System.Text.Encoding.UTF8.GetString(data.Array).ToString();
             };
 
             //Init
             client.Init();
             server.Init();
+            InitBtn();
         }
 
-        public void Start()
+        public void InitBtn()
         {
-            server.Start(8888);
-            client.Connect("localhost", 8888);
+            openServerBtn.onClick.AddListener(()=>{
+                server.Start(8888);
+            });
+            closeServerBtn.onClick.AddListener(()=>{
+                server.Stop();
+            });
+            sendServerBtn.onClick.AddListener(()=>{
+                server.Send(1, new System.ArraySegment<byte>(System.Text.Encoding.UTF8.GetBytes(inputServerField.text)));
+            });
 
+            connectClientBtn.onClick.AddListener(()=>{
+                client.Connect("localhost", 8888);
+            });
+            disconnectClientBtn.onClick.AddListener(()=>{
+                client.Disconnect();
+            });
+            sendClientBtn.onClick.AddListener(()=>{
+                client.Send(new System.ArraySegment<byte>(System.Text.Encoding.UTF8.GetBytes(inputClientField.text)));
+            });
         }
 
         public void Update()
@@ -68,11 +100,6 @@ namespace GameArchi.NetWorkSystem.Sample
                 server.Tick(100);
             }
 
-            if (client.State == NetState.Connected)
-            {
-                if(Input.GetKeyDown(KeyCode.Space))
-                client.Send(new System.ArraySegment<byte>(System.Text.Encoding.UTF8.GetBytes("hello server")));
-            }
             client.Tick(100);
         }
     }
