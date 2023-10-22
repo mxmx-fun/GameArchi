@@ -1,15 +1,17 @@
 using GameArchi.Utils;
 using UnityEngine;
 using UnityEngine.UI;
+using BufferIO.Helper;
 
 namespace GameArchi.NetWorkSystem.Sample
 {
 
     public class TcpSample : MonoBehaviour
     {
+
         [Header("server")]
         public Button openServerBtn;
-        public Button closeServerBtn; 
+        public Button closeServerBtn;
         public Button sendServerBtn;
         public InputField inputServerField;
         public Text messageServerText;
@@ -33,34 +35,36 @@ namespace GameArchi.NetWorkSystem.Sample
             server = new Server();
 
             //Bind Event
-            client.OnConnectedHandler += ()=>
+            client.OnConnectedHandler += () =>
             {
                 messageClientText.text += "Client Connected\n";
             };
 
-            client.OnDisconnectedHandler += ()=>
+            client.OnDisconnectedHandler += () =>
             {
                 messageClientText.text += "Client Disconnected\n";
             };
 
-            client.OnDataHandler += (data)=>
+            client.OnDataHandler += (data) =>
             {
-                messageClientText.text += "Server:" + System.Text.Encoding.UTF8.GetString(data.Array).ToString();
+                var message = GetStringDate(data.Array);
+                messageClientText.text += "Server:" + message + "\n";
             };
 
-            server.OnConnectedHandler += (connectionId)=>
+            server.OnConnectedHandler += (connectionId) =>
             {
                 messageServerText.text += "Server Connected:" + connectionId + "\n";
             };
 
-            server.OnDisconnectedHandler += (connectionId)=>
+            server.OnDisconnectedHandler += (connectionId) =>
             {
                 messageServerText.text += "Server Disconnected:" + connectionId + "\n";
             };
 
-            server.OnDataHandler += (connectionId, data)=>
+            server.OnDataHandler += (connectionId, data) =>
             {
-                messageServerText.text += "Client:" + System.Text.Encoding.UTF8.GetString(data.Array).ToString();
+                var message = GetStringDate(data.Array);
+                messageServerText.text += "Client:" + message + "\n"; ;
             };
 
             //Init
@@ -71,25 +75,48 @@ namespace GameArchi.NetWorkSystem.Sample
 
         public void InitBtn()
         {
-            openServerBtn.onClick.AddListener(()=>{
+            openServerBtn.onClick.AddListener(() =>
+            {
                 server.Start(8888);
             });
-            closeServerBtn.onClick.AddListener(()=>{
+            closeServerBtn.onClick.AddListener(() =>
+            {
                 server.Stop();
             });
-            sendServerBtn.onClick.AddListener(()=>{
-                server.Send(1, new System.ArraySegment<byte>(System.Text.Encoding.UTF8.GetBytes(inputServerField.text)));
+            sendServerBtn.onClick.AddListener(() =>
+            {
+                var message = WriteStringData(inputServerField.text);
+                server.Send(1, message);
             });
 
-            connectClientBtn.onClick.AddListener(()=>{
+            connectClientBtn.onClick.AddListener(() =>
+            {
                 client.Connect("localhost", 8888);
             });
-            disconnectClientBtn.onClick.AddListener(()=>{
+            disconnectClientBtn.onClick.AddListener(() =>
+            {
                 client.Disconnect();
             });
-            sendClientBtn.onClick.AddListener(()=>{
-                client.Send(new System.ArraySegment<byte>(System.Text.Encoding.UTF8.GetBytes(inputClientField.text)));
+            sendClientBtn.onClick.AddListener(() =>
+            {
+                var message = WriteStringData(inputClientField.text);
+                client.Send(message);
             });
+        }
+
+        public byte[] WriteStringData(string message)
+        {
+            int index = 0;
+            byte[] data = new byte[1024];
+            BufferWriter.WriteUTF8String(data, message, ref index);
+            return data;
+        }
+
+        public string GetStringDate(byte[] data)
+        {
+            int index = 0;
+            string content = BufferReader.ReadUTF8String(data, ref index);
+            return content;
         }
 
         public void Update()
