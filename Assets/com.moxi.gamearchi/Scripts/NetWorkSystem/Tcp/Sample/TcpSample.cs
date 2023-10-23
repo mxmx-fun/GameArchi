@@ -2,6 +2,7 @@ using GameArchi.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 using BufferIO.Helper;
+using GameArchi.NetWorkSystem.Tcp;
 
 namespace GameArchi.NetWorkSystem.Sample
 {

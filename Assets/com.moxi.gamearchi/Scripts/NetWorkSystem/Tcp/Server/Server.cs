@@ -1,6 +1,6 @@
 using System;
 
-namespace GameArchi.NetWorkSystem
+namespace GameArchi.NetWorkSystem.Tcp
 {
 
     public class Server
