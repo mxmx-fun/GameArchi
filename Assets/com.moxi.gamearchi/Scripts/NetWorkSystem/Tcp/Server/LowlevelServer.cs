@@ -20,9 +20,9 @@ namespace GameArchi.NetWorkSystem
         }
 
         public void Init() {
-            server.OnConnected += OnConnectedHandler;
-            server.OnDisconnected += OnDisconnectedHandler;
-            server.OnData += OnDataHandler;
+            server.OnConnected += OnConnected;
+            server.OnDisconnected += OnDisconnected;
+            server.OnData += OnData;
         }
 
         public NetState State()
@@ -37,6 +37,18 @@ namespace GameArchi.NetWorkSystem
             }
 
             return state;
+        }
+
+        public void OnConnected(int connectionId) {
+            OnConnectedHandler?.Invoke(connectionId);
+        }
+
+        public void OnDisconnected(int connectionId) {
+            OnDisconnectedHandler?.Invoke(connectionId);
+        }
+
+        public void OnData(int connectionId, ArraySegment<byte> data) {
+            OnDataHandler?.Invoke(connectionId, data);
         }
 
         public bool Start(int port)

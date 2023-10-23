@@ -21,9 +21,9 @@ namespace GameArchi.NetWorkSystem
         }
 
         public void Init() {
-            client.OnConnected += OnConnectedHandler;
-            client.OnDisconnected += OnDisconnectedHandler;
-            client.OnData += OnDataHandler;
+            client.OnConnected += OnConnected;
+            client.OnDisconnected += OnDisconnected;
+            client.OnData += OnData;
         }
 
 
@@ -35,6 +35,18 @@ namespace GameArchi.NetWorkSystem
         public void Send(ArraySegment<byte> date)
         {
             client.Send(date);
+        }
+
+        public void OnConnected() {
+            OnConnectedHandler?.Invoke();
+        }
+
+        public void OnDisconnected() {
+            OnDisconnectedHandler?.Invoke();
+        }
+
+        public void OnData(ArraySegment<byte> data) {
+            OnDataHandler?.Invoke(data);
         }
 
         public NetState State()

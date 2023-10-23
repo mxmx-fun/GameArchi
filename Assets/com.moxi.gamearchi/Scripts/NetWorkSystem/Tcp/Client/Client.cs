@@ -21,10 +21,10 @@ namespace GameArchi.NetWorkSystem
         }
 
         public void Init() {
+            client.Init();
             client.OnConnectedHandler += OnConnectedHandler;
             client.OnDisconnectedHandler += OnDisconnectedHandler;
             client.OnDataHandler += OnDataHandler;
-            client.Init();
         }
 
         public Telepathy.Client GetClient()

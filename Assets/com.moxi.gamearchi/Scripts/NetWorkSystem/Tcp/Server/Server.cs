@@ -19,10 +19,10 @@ namespace GameArchi.NetWorkSystem
 
         public void Init()
         {
+            server.Init();
             server.OnConnectedHandler += OnConnectedHandler;
             server.OnDisconnectedHandler += OnDisconnectedHandler;
             server.OnDataHandler += OnDataHandler;
-            server.Init();
         }
 
         public Telepathy.Server GetServer()
