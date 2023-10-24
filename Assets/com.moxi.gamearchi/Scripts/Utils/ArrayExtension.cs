@@ -17,5 +17,13 @@ namespace GameArchi.Utils {
             }
             UnityEngine.Debug.Log(str);
         }
+
+        public static void Debug(this float[] array) {
+            string str = "FloatArray Element:";
+            for (int i = 0; i < array.Length; i++) {
+                str += array[i] + " ";
+            }
+            UnityEngine.Debug.Log(str);
+        }
     }
 }
