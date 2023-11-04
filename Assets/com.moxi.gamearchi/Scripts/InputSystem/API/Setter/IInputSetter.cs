@@ -4,9 +4,9 @@ namespace GameArchi.InputSystem
 {
     public interface IInputSetter
     {
-        void Bind(InputButton actionType, KeyCode keyCode);
-        void Unbind(InputButton actionType);
+        void Bind(InputAction actionType, KeyCode keyCode);
+        void Unbind(InputAction actionType);
         void ClearAllBind();
-        void UpdateBind(InputButton actionType, KeyCode newKeyCode);
+        void UpdateBind(InputAction actionType, KeyCode newKeyCode);
     }
 }

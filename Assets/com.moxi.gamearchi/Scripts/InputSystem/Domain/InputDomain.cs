@@ -7,12 +7,13 @@ namespace GameArchi.InputSystem
         InputContext context;
         InputEventCenter eventCenter;
 
-        public void Inject(InputContext context, InputEventCenter eventCenter) {
+        public void Inject(InputContext context, InputEventCenter eventCenter)
+        {
             this.context = context;
             this.eventCenter = eventCenter;
         }
 
-        public void Bind(InputButton actionType, KeyCode keyCode)
+        public void Bind(InputAction actionType, KeyCode keyCode)
         {
             var inputActions = context.inputActions;
             if (!inputActions.ContainsKey(actionType))
@@ -27,7 +28,7 @@ namespace GameArchi.InputSystem
             }
         }
 
-        public void Unbind(InputButton actionType)
+        public void Unbind(InputAction actionType)
         {
             var inputActions = context.inputActions;
             if (inputActions.ContainsKey(actionType))
@@ -51,7 +52,7 @@ namespace GameArchi.InputSystem
 #endif
         }
 
-        public void UpdateBind(InputButton actionType, KeyCode newKeyCode)
+        public void UpdateBind(InputAction actionType, KeyCode newKeyCode)
         {
             var inputActions = context.inputActions;
             if (inputActions.ContainsKey(actionType))
@@ -66,7 +67,24 @@ namespace GameArchi.InputSystem
             }
         }
 
-        public void Tick() {
+        public KeyCode GetKey(InputAction actionType)
+        {
+            var inputActions = context.inputActions;
+            if (inputActions.ContainsKey(actionType))
+            {
+                return inputActions[actionType];
+            }
+            else
+            {
+#if UNITY_EDITOR
+                Debug.LogWarning($"Cant find the key of {actionType}!");
+#endif
+                return KeyCode.None;
+            }
+        }
+
+        public void Tick()
+        {
             var inputActions = context.inputActions;
             if (inputActions == null) return;
             foreach (var inputAction in inputActions)

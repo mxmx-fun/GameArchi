@@ -2,25 +2,25 @@ namespace GameArchi.InputSystem
 {
     public class InputSystem
     {
-
         InputContext context;
         InputDomain domain;
-        InputSetter setter;
-        public IInputSetter Setter => setter;
+
+        InputSetter setterAPI;
+        public IInputSetter SetterAPI => setterAPI;
+        InputGetter getterAPI;
+        public IInputGetter GetterAPI => getterAPI;
+        
         public InputEventCenter eventCenter;
 
         public InputSystem()
         {
             context = new InputContext();
             domain = new InputDomain();
-            setter = new InputSetter();
+            setterAPI = new InputSetter();
             eventCenter = new InputEventCenter();
-        }
 
-        public void Inject()
-        {
-            domain.Inject(context,eventCenter);
-            setter.Inject(domain);
+            domain.Inject(context, eventCenter);
+            setterAPI.Inject(domain);
         }
 
         public void Tick()

@@ -11,37 +11,36 @@ public class InputSystemSample : MonoBehaviour
     {
         //Init
         inputSystem = new InputSystem();
-        inputSystem.Inject();
         
         //Bind Input
-        inputSystem.Setter.Bind(InputButton.Jump, KeyCode.Space);
-        inputSystem.Setter.Bind(InputButton.Attack, KeyCode.J);
-        inputSystem.Setter.Bind(InputButton.Chat, KeyCode.E);
-        inputSystem.Setter.Bind(InputButton.MoveForward, KeyCode.W);
-        inputSystem.Setter.Bind(InputButton.MoveBackward, KeyCode.S);
-        inputSystem.Setter.Bind(InputButton.MoveLeft, KeyCode.A);
-        inputSystem.Setter.Bind(InputButton.MoveRight, KeyCode.D);
+        inputSystem.SetterAPI.Bind(InputAction.Jump, KeyCode.Space);
+        inputSystem.SetterAPI.Bind(InputAction.Attack, KeyCode.J);
+        inputSystem.SetterAPI.Bind(InputAction.Chat, KeyCode.E);
+        inputSystem.SetterAPI.Bind(InputAction.MoveForward, KeyCode.W);
+        inputSystem.SetterAPI.Bind(InputAction.MoveBackward, KeyCode.S);
+        inputSystem.SetterAPI.Bind(InputAction.MoveLeft, KeyCode.A);
+        inputSystem.SetterAPI.Bind(InputAction.MoveRight, KeyCode.D);
         
         inputSystem.eventCenter.OnInputButtonDownHandler += (button) => {
-            if(button == InputButton.Jump){
+            if(button == InputAction.Jump){
                 Debug.Log("Jump");
             }
-            if(button == InputButton.Attack){
+            if(button == InputAction.Attack){
                 Debug.Log("Attack");
             }
-            if(button == InputButton.Chat){
+            if(button == InputAction.Chat){
                 Debug.Log("Chat");
             }
-            if(button == InputButton.MoveForward){
+            if(button == InputAction.MoveForward){
                 Debug.Log("MoveForward");
             }
-            if(button == InputButton.MoveBackward){
+            if(button == InputAction.MoveBackward){
                 Debug.Log("MoveBackward");
             }
-            if(button == InputButton.MoveLeft){
+            if(button == InputAction.MoveLeft){
                 Debug.Log("MoveLeft");
             }
-            if(button == InputButton.MoveRight){
+            if(button == InputAction.MoveRight){
                 Debug.Log("MoveRight");
             }
         };

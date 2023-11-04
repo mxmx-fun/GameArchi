@@ -5,11 +5,11 @@ namespace GameArchi.InputSystem
 {
     public class InputContext
     {
-        public Dictionary<InputButton, KeyCode> inputActions;
+        public Dictionary<InputAction, KeyCode> inputActions;
 
         public InputContext()
         {
-            inputActions = new Dictionary<InputButton, KeyCode>();
+            inputActions = new Dictionary<InputAction, KeyCode>();
         }
 
     }

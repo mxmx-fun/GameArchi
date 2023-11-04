@@ -4,19 +4,19 @@ namespace GameArchi.InputSystem {
 
     public class InputEventCenter{
 
-        public event Action<InputButton> OnInputButtonDownHandler;
-        public event Action<InputButton> OnInputButtonUpHandler;
-        public event Action<InputButton> OnInputButtonPressedHandler;
+        public event Action<InputAction> OnInputButtonDownHandler;
+        public event Action<InputAction> OnInputButtonUpHandler;
+        public event Action<InputAction> OnInputButtonPressedHandler;
 
-        public void OnButtonDown(InputButton button){
+        public void OnButtonDown(InputAction button){
             OnInputButtonDownHandler?.Invoke(button);
         }
 
-        public void OnButtonUp(InputButton button){
+        public void OnButtonUp(InputAction button){
             OnInputButtonUpHandler?.Invoke(button);
         }
 
-        public void OnButtonPressed(InputButton button){
+        public void OnButtonPressed(InputAction button){
             OnInputButtonPressedHandler?.Invoke(button);
         }
     }

@@ -11,7 +11,7 @@ namespace GameArchi.InputSystem
             this.domain = domain;
         }
 
-        void IInputSetter.Bind(InputButton actionType, KeyCode keyCode)
+        void IInputSetter.Bind(InputAction actionType, KeyCode keyCode)
         {
             domain.Bind(actionType, keyCode);
         }
@@ -21,12 +21,12 @@ namespace GameArchi.InputSystem
             domain.ClearAllBind();
         }
 
-        void IInputSetter.Unbind(InputButton actionType)
+        void IInputSetter.Unbind(InputAction actionType)
         {
             domain.Unbind(actionType);
         }
 
-        void IInputSetter.UpdateBind(InputButton actionType, KeyCode newKeyCode)
+        void IInputSetter.UpdateBind(InputAction actionType, KeyCode newKeyCode)
         {
             domain.UpdateBind(actionType, newKeyCode);
         }

@@ -1,6 +1,6 @@
 namespace GameArchi.InputSystem
 {
-    public enum InputButton
+    public enum InputAction
     {   
         MoveForward,
         MoveBackward,
